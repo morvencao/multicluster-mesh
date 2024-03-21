@@ -23,7 +23,7 @@ To simplify the configuration and operation of service meshes, we created the fo
         components: ["base", "istiod", "istio-ingress"]
         namespace: istio-system
         profiles: ["default"]
-        version: 1.13.2
+        version: 1.16.7
       meshMemberRoll: ["istio-apps"]
       meshProvider: Upstream Istio
       meshConfig:
@@ -45,7 +45,7 @@ To simplify the configuration and operation of service meshes, we created the fo
         components: ["base", "istiod", "istio-ingress"]
         namespace: mesh-system
         profiles: ["default"]
-        version: 1.13.2
+        version: 1.16.7
       meshMemberRoll: ["mesh-apps"]
       meshProvider: Upstream Istio
     ```
@@ -120,7 +120,7 @@ cd demo && ./demo
     ```bash
     # oc -n eks1 get mesh
     NAME                         CLUSTER    VERSION   PROVIDER                PEERS    AGE
-    eks1-istio-system-default    eks1       1.13.2    Upstream Istio                   50s
+    eks1-istio-system-default    eks1       1.16.7    Upstream Istio                   50s
     ```
 
 2. Mesh Deployment:
@@ -142,7 +142,7 @@ cd demo && ./demo
         components: ["base", "istiod", "istio-ingress"]
         namespace: istio-system
         profiles: ["default"]
-        version: 1.13.2
+        version: 1.16.7
       meshMemberRoll: ["bookinfo"]
       meshProvider: Upstream Istio
     EOF
@@ -153,8 +153,8 @@ cd demo && ./demo
     ```bash
     # oc get mesh -A
     NAMESPACE   NAME          CLUSTER   VERSION   PROVIDER                 PEERS   AGE
-    eks1        eks1-istio    eks1      1.13.2    Upstream Istio                   13s
-    eks2        eks2-istio    eks2      1.13.2    Upstream Istio                   13s
+    eks1        eks1-istio    eks1      1.16.7    Upstream Istio                   13s
+    eks2        eks2-istio    eks2      1.16.7    Upstream Istio                   13s
     ```
 
 4. Mesh Federation:

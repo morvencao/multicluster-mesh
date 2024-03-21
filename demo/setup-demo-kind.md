@@ -72,27 +72,27 @@ kubectl -n open-cluster-management-agent-addon get pod -l app=multicluster-mesh-
 Pull the istio related images from docker hub and load into the KinD clusters to workaround the docker.io pull limite issue:
 
 ```bash
-docker pull docker.io/istio/operator:1.13.2
-docker pull docker.io/istio/pilot:1.13.2
-docker pull docker.io/istio/proxyv2:1.13.2
+docker pull docker.io/istio/operator:1.16.7
+docker pull docker.io/istio/pilot:1.16.7
+docker pull docker.io/istio/proxyv2:1.16.7
 docker pull docker.io/istio/examples-bookinfo-productpage-v1:1.16.2
 docker pull docker.io/istio/examples-bookinfo-details-v1:1.16.2
 docker pull docker.io/istio/examples-bookinfo-ratings-v1:1.16.2
 docker pull docker.io/istio/examples-bookinfo-reviews-v1:1.16.2
 docker pull docker.io/istio/examples-bookinfo-reviews-v2:1.16.2
 docker pull docker.io/istio/examples-bookinfo-reviews-v3:1.16.2
-kind load docker-image docker.io/istio/operator:1.13.2 --name cluster1
-kind load docker-image docker.io/istio/pilot:1.13.2 --name cluster1
-kind load docker-image docker.io/istio/proxyv2:1.13.2 --name cluster1
+kind load docker-image docker.io/istio/operator:1.16.7 --name cluster1
+kind load docker-image docker.io/istio/pilot:1.16.7 --name cluster1
+kind load docker-image docker.io/istio/proxyv2:1.16.7 --name cluster1
 kind load docker-image docker.io/istio/examples-bookinfo-productpage-v1:1.16.2 --name cluster1
 kind load docker-image docker.io/istio/examples-bookinfo-details-v1:1.16.2 --name cluster1
 kind load docker-image docker.io/istio/examples-bookinfo-ratings-v1:1.16.2 --name cluster1
 kind load docker-image docker.io/istio/examples-bookinfo-reviews-v1:1.16.2 --name cluster1
 kind load docker-image docker.io/istio/examples-bookinfo-reviews-v2:1.16.2 --name cluster1
 kind load docker-image docker.io/istio/examples-bookinfo-reviews-v3:1.16.2 --name cluster1
-kind load docker-image docker.io/istio/operator:1.13.2 --name cluster2
-kind load docker-image docker.io/istio/pilot:1.13.2 --name cluster2
-kind load docker-image docker.io/istio/proxyv2:1.13.2 --name cluster2
+kind load docker-image docker.io/istio/operator:1.16.7 --name cluster2
+kind load docker-image docker.io/istio/pilot:1.16.7 --name cluster2
+kind load docker-image docker.io/istio/proxyv2:1.16.7 --name cluster2
 kind load docker-image docker.io/istio/examples-bookinfo-productpage-v1:1.16.2 --name cluster2
 kind load docker-image docker.io/istio/examples-bookinfo-details-v1:1.16.2 --name cluster2
 kind load docker-image docker.io/istio/examples-bookinfo-ratings-v1:1.16.2 --name cluster2
@@ -132,8 +132,8 @@ spec:
     components: ["base", "istiod", "istio-ingress"]
     namespace: istio-system
     profiles: ["default"]
-    version: 1.13.2
-    revision: 1-13-2
+    version: 1.16.7
+    revision: 1-16-7
   meshMemberRoll: ["bookinfo"]
   meshProvider: Upstream Istio
 EOF
@@ -176,9 +176,9 @@ EOF
 ```bash
 kubectl config use-context ${CTX_MANAGED_CLUSTER1}
 kubectl create ns bookinfo
-kubectl label namespace bookinfo istio.io/rev=1-13-2
-kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.13/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version notin (v3)'
-kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.13/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account'
+kubectl label namespace bookinfo istio.io/rev=1-16-7
+kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version notin (v3)'
+kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account'
 ```
 
 - Then deploy another part(reviews-v3, ratings) of bookinfo application in `cluster2`:
@@ -186,12 +186,12 @@ kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/relea
 ```bash
 kubectl config use-context ${CTX_MANAGED_CLUSTER2}
 kubectl create ns bookinfo
-kubectl label namespace bookinfo istio.io/rev=1-13-2
-kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version in (v3)' 
-kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'service=reviews' 
-kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=reviews' 
-kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app=ratings' 
-kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=ratings'
+kubectl label namespace bookinfo istio.io/rev=1-16-7
+kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version in (v3)' 
+kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'service=reviews' 
+kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=reviews' 
+kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app=ratings' 
+kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=ratings'
 ```
 
 - Create the following `serviceentry` and `destinationrule` resources in `cluster2` to expose service(reviews-v3) from mesh `cluster2-istio`:

@@ -42,27 +42,27 @@ printf "\nVerify two managed clusters are joined to the Hub.\n"
 pei "kubectl get managedcluster --context ${CTX_HUB_CLUSTER}"
 
 # pull istio and bookinfo images and load them into KinD clusters in the background
-docker pull docker.io/istio/operator:1.13.2 > /dev/null 2>&1 &
-docker pull docker.io/istio/pilot:1.13.2 > /dev/null 2>&1 &
-docker pull docker.io/istio/proxyv2:1.13.2 > /dev/null 2>&1 &
+docker pull docker.io/istio/operator:1.16.7 > /dev/null 2>&1 &
+docker pull docker.io/istio/pilot:1.16.7 > /dev/null 2>&1 &
+docker pull docker.io/istio/proxyv2:1.16.7 > /dev/null 2>&1 &
 docker pull docker.io/istio/examples-bookinfo-productpage-v1:1.16.2 > /dev/null 2>&1 &
 docker pull docker.io/istio/examples-bookinfo-details-v1:1.16.2 > /dev/null 2>&1 &
 docker pull docker.io/istio/examples-bookinfo-ratings-v1:1.16.2 > /dev/null 2>&1 &
 docker pull docker.io/istio/examples-bookinfo-reviews-v1:1.16.2 > /dev/null 2>&1 &
 docker pull docker.io/istio/examples-bookinfo-reviews-v2:1.16.2 > /dev/null 2>&1 &
 docker pull docker.io/istio/examples-bookinfo-reviews-v3:1.16.2 > /dev/null 2>&1 &
-kind load docker-image docker.io/istio/operator:1.13.2 --name cluster1 > /dev/null 2>&1 &
-kind load docker-image docker.io/istio/pilot:1.13.2 --name cluster1 > /dev/null 2>&1 &
-kind load docker-image docker.io/istio/proxyv2:1.13.2 --name cluster1 > /dev/null 2>&1 &
+kind load docker-image docker.io/istio/operator:1.16.7 --name cluster1 > /dev/null 2>&1 &
+kind load docker-image docker.io/istio/pilot:1.16.7 --name cluster1 > /dev/null 2>&1 &
+kind load docker-image docker.io/istio/proxyv2:1.16.7 --name cluster1 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-productpage-v1:1.16.2 --name cluster1 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-details-v1:1.16.2 --name cluster1 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-ratings-v1:1.16.2 --name cluster1 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-reviews-v1:1.16.2 --name cluster1 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-reviews-v2:1.16.2 --name cluster1 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-reviews-v3:1.16.2 --name cluster1 > /dev/null 2>&1 &
-kind load docker-image docker.io/istio/operator:1.13.2 --name cluster2 > /dev/null 2>&1 &
-kind load docker-image docker.io/istio/pilot:1.13.2 --name cluster2 > /dev/null 2>&1 &
-kind load docker-image docker.io/istio/proxyv2:1.13.2 --name cluster2 > /dev/null 2>&1 &
+kind load docker-image docker.io/istio/operator:1.16.7 --name cluster2 > /dev/null 2>&1 &
+kind load docker-image docker.io/istio/pilot:1.16.7 --name cluster2 > /dev/null 2>&1 &
+kind load docker-image docker.io/istio/proxyv2:1.16.7 --name cluster2 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-productpage-v1:1.16.2 --name cluster2 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-details-v1:1.16.2 --name cluster2 > /dev/null 2>&1 &
 kind load docker-image docker.io/istio/examples-bookinfo-ratings-v1:1.16.2 --name cluster2 > /dev/null 2>&1 &
@@ -105,18 +105,18 @@ pe "kubectl --context ${CTX_HUB_CLUSTER} apply -f meshfederation.yaml"
 printf "\n\nVerify the istio service meshes are federated successfull by deploying bookinfo application.\n"
 printf "    Deploy part(productpage,details,reviews-v1,reviews-v2,ratings) of the bookinfo application in cluster1.\n"
 pe "kubectl create ns bookinfo --context ${CTX_MANAGED_CLUSTER1}"
-pe "kubectl label namespace bookinfo istio.io/rev=1-13-2 --context ${CTX_MANAGED_CLUSTER1}"
-pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.13/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version notin (v3)' --context ${CTX_MANAGED_CLUSTER1}"
-pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.13/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account' --context ${CTX_MANAGED_CLUSTER1}"
+pe "kubectl label namespace bookinfo istio.io/rev=1-16-7 --context ${CTX_MANAGED_CLUSTER1}"
+pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version notin (v3)' --context ${CTX_MANAGED_CLUSTER1}"
+pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account' --context ${CTX_MANAGED_CLUSTER1}"
 
 printf "\n    Deploy another part(reviews-v3, ratings) of bookinfo application in cluster2.\n"
 pe "kubectl create ns bookinfo --context ${CTX_MANAGED_CLUSTER2}"
-pe "kubectl label namespace bookinfo istio.io/rev=1-13-2 --context ${CTX_MANAGED_CLUSTER2}"
-pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version in (v3)' --context ${CTX_MANAGED_CLUSTER2}"
-pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'service=reviews' --context ${CTX_MANAGED_CLUSTER2}"
-pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=reviews' --context ${CTX_MANAGED_CLUSTER2}"
-pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app=ratings' --context ${CTX_MANAGED_CLUSTER2}"
-pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=ratings' --context ${CTX_MANAGED_CLUSTER2}"
+pe "kubectl label namespace bookinfo istio.io/rev=1-16-7 --context ${CTX_MANAGED_CLUSTER2}"
+pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app,version in (v3)' --context ${CTX_MANAGED_CLUSTER2}"
+pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'service=reviews' --context ${CTX_MANAGED_CLUSTER2}"
+pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=reviews' --context ${CTX_MANAGED_CLUSTER2}"
+pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'app=ratings' --context ${CTX_MANAGED_CLUSTER2}"
+pe "kubectl apply -n bookinfo -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo.yaml -l 'account=ratings' --context ${CTX_MANAGED_CLUSTER2}"
 
 printf "\nVerify productpage,details,reviews-v1,reviews-v2,ratings are up and running in cluster1.\n"
 pe "kubectl -n bookinfo get pod --context ${CTX_MANAGED_CLUSTER1}"

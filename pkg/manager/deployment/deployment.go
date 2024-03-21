@@ -111,7 +111,7 @@ func (c *meshDeploymentController) sync(ctx context.Context, syncCtx factory.Syn
 			},
 		}
 		// apply control plane "revision" from the control plane "version" if the "revision" is empty to avoid conflict with other istio control planes
-		// for example, if the "version" is "1.13.2" and "revision" is empty, then apply the revision "1-13-2" to the mesh resources.
+		// for example, if the "version" is "1.16.7" and "revision" is empty, then apply the revision "1-16-7" to the mesh resources.
 		if meshDeployment.Spec.ControlPlane.Revision == "" {
 			mesh.Spec.ControlPlane.Revision = strings.ReplaceAll(meshDeployment.Spec.ControlPlane.Version, ".", "-")
 		}
